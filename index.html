@@ -4,7 +4,9 @@
   <title>Fast Growing Hierarchy</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.49/big-integer.min.js"></script>
   <script>
-    // Define a function for hyperoperations
+    // Define functions for hyperoperations using big-integer
+    const bigInt = window.bigInt;
+
     function successor(n) {
       return bigInt(n).add(1);
     }
@@ -19,6 +21,7 @@
 
     function exponentiation(base, exp) {
       let result = bigInt(1);
+      base = bigInt(base);
       for (let i = 0; i < exp; i++) {
         result = result.multiply(base);
       }
@@ -107,11 +110,20 @@
     }
 
     function calculate() {
-      let fn = parseInt(document.getElementById("function").value);
-      let n = parseInt(document.getElementById("inputValue").value);
-      let height = parseInt(document.getElementById("height").value);
-      let result = applyFunction(fn, n, height);
-      document.getElementById("result").innerText = result.toString();
+      try {
+        let fn = parseInt(document.getElementById("function").value);
+        let n = parseInt(document.getElementById("inputValue").value);
+        let height = parseInt(document.getElementById("height").value);
+        
+        if (isNaN(fn) || isNaN(n) || isNaN(height) || n <= 0 || height <= 0) {
+          throw new Error("Invalid input. Ensure that function number and inputs are positive integers.");
+        }
+        
+        let result = applyFunction(fn, n, height);
+        document.getElementById("result").innerText = result.toString();
+      } catch (error) {
+        document.getElementById("result").innerText = error.message;
+      }
     }
   </script>
 </head>
