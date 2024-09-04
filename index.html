@@ -2,17 +2,105 @@
 <html>
 <head>
   <title>Fast Growing Hierarchy</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.49/big-integer.min.js"></script>
   <script>
-    function applyFunction(fn, n) {
+    // Define a function for hyperoperations
+    function successor(n) {
+      return bigInt(n).add(1);
+    }
+
+    function addition(a, b) {
+      return bigInt(a).add(b);
+    }
+
+    function multiplication(a, b) {
+      return bigInt(a).multiply(b);
+    }
+
+    function exponentiation(base, exp) {
+      let result = bigInt(1);
+      for (let i = 0; i < exp; i++) {
+        result = result.multiply(base);
+      }
+      return result;
+    }
+
+    function tetration(base, height) {
+      if (height === 1) return base;
+      let result = base;
+      for (let i = 1; i < height; i++) {
+        result = exponentiation(base, result);
+      }
+      return result;
+    }
+
+    function pentation(base, height) {
+      if (height === 1) return base;
+      let result = base;
+      for (let i = 1; i < height; i++) {
+        result = tetration(base, result);
+      }
+      return result;
+    }
+
+    function hexation(base, height) {
+      if (height === 1) return base;
+      let result = base;
+      for (let i = 1; i < height; i++) {
+        result = pentation(base, result);
+      }
+      return result;
+    }
+
+    function heptation(base, height) {
+      if (height === 1) return base;
+      let result = base;
+      for (let i = 1; i < height; i++) {
+        result = hexation(base, result);
+      }
+      return result;
+    }
+
+    function octation(base, height) {
+      if (height === 1) return base;
+      let result = base;
+      for (let i = 1; i < height; i++) {
+        result = heptation(base, result);
+      }
+      return result;
+    }
+
+    function nonation(base, height) {
+      if (height === 1) return base;
+      let result = base;
+      for (let i = 1; i < height; i++) {
+        result = octation(base, result);
+      }
+      return result;
+    }
+
+    function applyFunction(fn, n, height) {
       switch(fn) {
-        case 0:
-          return n + 1;
-        case 1:
-          return 2 * n;
-        case 2:
-          return n * n;
-        case 3:
-          return Math.pow(n, n);
+        case 0: // Successor
+          return successor(n);
+        case 1: // Addition
+          return addition(n, n); // Example uses n + n
+        case 2: // Multiplication
+          return multiplication(n, n); // Example uses n * n
+        case 3: // Exponentiation
+          return exponentiation(n, n); // Example uses n ^ n
+        case 4: // Tetration
+          return tetration(n, height); // Example uses n tetrated height times
+        case 5: // Pentation
+          return pentation(n, height); // Example uses n pentated height times
+        case 6: // Hexation
+          return hexation(n, height); // Example uses n hexated height times
+        case 7: // Heptation
+          return heptation(n, height); // Example uses n heptated height times
+        case 8: // Octation
+          return octation(n, height); // Example uses n octated height times
+        case 9: // Nonation
+          return nonation(n, height); // Example uses n nonated height times
         default:
           return "Function not implemented";
       }
@@ -21,18 +109,22 @@
     function calculate() {
       let fn = parseInt(document.getElementById("function").value);
       let n = parseInt(document.getElementById("inputValue").value);
-      let result = applyFunction(fn, n);
-      document.getElementById("result").innerText = result;
+      let height = parseInt(document.getElementById("height").value);
+      let result = applyFunction(fn, n, height);
+      document.getElementById("result").innerText = result.toString();
     }
   </script>
 </head>
 <body>
   <h1>Fast Growing Hierarchy</h1>
-  <label>Function Number (0-3):</label>
-  <input type="number" id="function" value="0" min="0" max="3">
+  <label>Function Number (0-9):</label>
+  <input type="number" id="function" value="0" min="0" max="9">
   <br>
   <label>Input Value:</label>
   <input type="number" id="inputValue" value="2">
+  <br>
+  <label>Height (for higher functions):</label>
+  <input type="number" id="height" value="2">
   <br>
   <button onclick="calculate()">Calculate</button>
   <p>Result: <span id="result"></span></p>
