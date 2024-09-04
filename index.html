@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fast Growing Hierarchy</title>
+  <script>
+    function applyFunction(fn, n) {
+      switch(fn) {
+        case 0:
+          return n + 1;
+        case 1:
+          return 2 * n;
+        case 2:
+          return n * n;
+        case 3:
+          return Math.pow(n, n);
+        default:
+          return "Function not implemented";
+      }
+    }
+
+    function calculate() {
+      let fn = parseInt(document.getElementById("function").value);
+      let n = parseInt(document.getElementById("inputValue").value);
+      let result = applyFunction(fn, n);
+      document.getElementById("result").innerText = result;
+    }
+  </script>
+</head>
+<body>
+  <h1>Fast Growing Hierarchy</h1>
+  <label>Function Number (0-3):</label>
+  <input type="number" id="function" value="0" min="0" max="3">
+  <br>
+  <label>Input Value:</label>
+  <input type="number" id="inputValue" value="2">
+  <br>
+  <button onclick="calculate()">Calculate</button>
+  <p>Result: <span id="result"></span></p>
+</body>
+</html>
